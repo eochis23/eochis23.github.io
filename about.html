@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eric Ochis</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            text-align: center;
+        }
+        header {
+            background-color: #beeeaf; /* Muted green */
+            color: #ffffff; /* Dark green */
+            padding: 0; /* Reduced padding */
+            display: flex; /* Added */
+            justify-content: space-around; /* Added */
+            align-items: center; /* Added */
+        }
+        h1 {
+            font-size: 2em;
+            text-shadow: 2px 2px 4px #888888;
+            margin-left: -15%;
+        }
+        nav {
+            background-color: #5dade2;
+            padding: 1em 0;
+        }
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.75em 1.5em;
+            background-color: #2e86c1;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #3498db;
+        }
+        main {
+            padding: 0.5em;
+            display: block;
+            position: relative;
+            margin-top: 0px;
+        }
+        .section-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        .resume-box {
+            background-color: #ffffff;
+            padding: 25px;
+            box-shadow: 0 4px 8px #112;
+            width: 45%;
+            margin-bottom: 20px;
+            text-align: left;
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
+            min-height: 200px;
+        }
+        footer {
+            background-color: #2e86c1;
+            color: white;
+            text-align: center;
+            padding: 0.3em 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            font-size: 0.7em;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="index.html" style="font-size: 1.5em; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112; margin-left: -15%;">Eric Ochis</a></h1>
+        <div style="margin-right: -15%;"> <!-- Added container for nav links -->
+            <a href="about.html" style="font-size: 2em; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">About</a>
+            <a href="portfolio.html" style="font-size: 2em; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Portfolio</a>
+            <a href="contact.html" style="font-size: 2em; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Contact</a>
+        </div>
+    </header>
+    <main>
+        <div class="section-container">
+            <div class="resume-box" id="about">
+                <h2>About Me</h2>
+                <p>Eric Ochis, a math major who enjoys tackling hard problems.</p>
+                <h3>Skills</h3>
+                <ul>
+                    <li><b>Programming Languages:</b> Python, R, C</li>
+                    <li><b>Software:</b> Microsoft Office, Google Workspace</li>
+                </ul>
+            </div>
+
+            <div class="resume-box" id="education">
+                <h3>Education</h3>
+                <p><b>Carnegie Mellon University, Pittsburgh PA (May 2027)</b></p>
+                <ul>
+                    <li>B.S. in Mathematical Sciences with Concentration in Computational and Applied Mathematics</li>
+                    <li>GPA: 3.62</li>
+                    <li>Selected Coursework: Graph Theory, Topics in Applied Math, Coding with AI, Decision Theory, Introduction to Mathematical Modeling, Numerical Methods</li>
+                </ul>
+            </div>
+
+            <div class="resume-box" id="experience">
+                <h3>Experience</h3>
+                <p><b>Associate Head Teaching Assistant (December 2025 - Present)</b></p>
+                <p>Fundamentals of Programming and Computer Science</p>
+                <ul>
+                    <li>Worked with course leadership team to develop policy</li>
+                    <li>Reinvented course events and focus to be relevant with AI</li>
+                    <li>Trained teaching assistants to teach more effectively</li>
+                    <li>Managed staff of 35 teaching assistants</li>
+                </ul>
+                <p><b>Summer Intern at Durapax Commercial Roofing Systems (May 2025 - August 2025)</b></p>
+                <ul>
+                    <li>Developed systems for collecting useful production data</li>
+                    <li>Analyzed data and suggested areas to apply findings</li>
+                    <li>Ensured accuracy of quality control measurements</li>
+                    <li>Proofread technical documents for accuracy and consistency</li>
+                </ul>
+            </div>
+
+            <div class="resume-box" id="experience">
+                <h3>Experience</h3>
+                
+
+                <p><b>Junior Lead Teaching Assistant (August 2025 - December 2025)</b></p>
+                <p>Fundamentals of Programming and Computer Science</p>
+                <ul>
+                    <li>Created assessment rubrics and ran the grading process</li>
+                    <li>Acted as an intermediary between leadership and the rest of staff</li>
+                    <li>Assisted in planning a hackathon for course students</li>
+                    <li>Taught large group sessions with 200 students</li>
+                    <li>Retained weekly small group teaching duties</li>
+                </ul>
+
+                <p><b>Teaching Assistant (August 2024 - August 2025)</b></p>
+                <p>Fundamentals of Programming and Computer Science</p>
+                <ul>
+                    <li>Taught weekly classes to 30 students</li>
+                    <li>Worked with students to help them understand course material</li>
+                    <li>Quickly and accurately graded student work</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2026 Eric Ochis</p>
+        <p>Disclaimer: This site is paritially generated by AI.</p>
+    </footer>
+</body>
+</html>
