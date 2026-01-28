@@ -9,115 +9,129 @@
             font-family: 'Comic Sans MS', cursive, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #ffffe0; /* Light yellow */
+            background-color: #ffffe0;
             text-align: center;
-			overflow: hidden; /* Added to prevent scrolling */
+            overflow: hidden;
         }
 
         header {
-            background-color: #beeeaf; /* Muted green */
-            color: #ffffff; /* Dark green */
-            padding: 0; /* Reduced padding */
-            display: flex; /* Added */
-            justify-content: space-around; /* Added */
-            align-items: center; /* Added */
+            background-color: #beeeaf;
+            color: #ffffff;
+            padding: 0;
+            display: flex;
+            height: 12.5vh; 
+            justify-content: space-around;
+            align-items: center;
         }
 
         h1 {
-            font-size: 2em; /* Reduced font size */
+            font-size: 2vw; 
             text-shadow: 2px 2px 4px #888888;
-			margin-left: -15%; /* Shifted further left */
-        }
-
-        nav {
-            background-color: #dda0dd; /* Plum */
-            padding: 1em 0;
+            margin-left: -15%;
         }
 
         nav a {
             color: #fff;
             text-decoration: none;
             padding: 0.75em 1.5em;
-            background-color: #ba55d3; /* Medium orchid */
+            background-color: #ba55d3;
             border-radius: 8px;
             transition: background-color 0.3s ease;
+            font-size: 1.5vw;
         }
 
         nav a:hover {
-            background-color: #9400d3; /* Dark violet */
+            background-color: #9400d3;
         }
 
         main {
-            padding:  0; /* Reduced padding */
-            display: block; /* Modified to block */
-            height: calc(100vh - 85px); /* Adjusted height to account for smaller footer and prevent overlap */
-            position: relative;
-            margin-top: 0px; /* Touch the header */
+            padding: 0;
+            display: block; 
+            height: 80vh; 
+            width: 100vw;
+            position: relative; 
+            margin-top: 0px;
         }
 
         section {
-            background-color: #afeeee; /* Pale turquoise */
+            /* Basic styling */
             padding: 25px;
-            box-shadow: 0 4px 8px #112;
-            width: 80%; /* Description takes up 75% */
+            /* Box shadow removed because it looks weird on a transparent fade */
+            /* box-shadow: 0 4px 8px #112; */ 
             text-align: left;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /* Adjusted slant position */
-            position: relative; /* Required for z-index */
-            z-index: 1; /* Ensure box is above the image */
-            background: linear-gradient(to right, #beeeef 10%, #8e9288 67.25%, transparent 100%); /* More opaque */
-            min-height: 90%; /* Fill the page */
-
+            
+            /* --- GRADIENT LOGIC --- */
+            /* 1. Solid Blue until 50vh from the right edge */
+            /* 2. Transition to Gray by 20vh from the right edge */
+            /* 3. Fully Transparent at the exact right edge (100%) */
+            background: linear-gradient(to right, 
+                #beeeef, 
+                #beeeef calc(100% - 80vh), 
+                #8e9288 calc(100% - 40vh), 
+                transparent 100%
+            );
+            
+            height: 100%;
+            box-sizing: border-box;
+            width: calc(100vw - 30vh); 
+            position: relative;
+            z-index: 10; 
+            
+            /* REMOVED: clip-path: polygon(...) is gone, so no angled cut. */
         }
 
-
-
-
         img {
-            width: auto; /* Slightly decreased image size */
-            /* height: 92.5%; */
-			width: 45%;
+            height: 100%; 
+            width: auto;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1; 
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: absolute; /* Changed to absolute */
-            top: 0px; /* Top of the image touches bottom of the header */
-            right: 0%; /* Position from the right */
-            z-index: -1; /* Ensure image is behind the box */
         }
 
         footer {
-            background-color: #4682b4; /* Steel blue */
+            background-color: #4682b4;
             color: white;
             text-align: center;
-            padding: 0.3em 0; /* Reduced padding even more */
             position: fixed;
             bottom: 0;
             width: 100%;
-			font-size: 0.7em; /* Reduced font size even more */
-            z-index: 2; /* Over the box */
+            height: 7.5vh; 
+            font-size: 1.5vh;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        footer p {
+            margin: 2px 0;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1><a href="index.html" style="font-size: 1.5em; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112; margin-left: -15%;">Eric Ochis</a></h1>
-        <div style="margin-right: -15%;"> <!-- Added container for nav links -->
-            <a href="about.html" style="font-size: 2em; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">About</a>
-            <a href="portfolio.html" style="font-size: 2em; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Portfolio</a>
-            <a href="contact.html" style="font-size: 2em; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Contact</a>
+        <h1><a href="index.html" style="font-size: 3.5vw; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112; margin-left: -15%;">Eric Ochis</a></h1>
+        <div style="margin-right: -15%;"> 
+            <a href="about.html" style="font-size: 2vw; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">About</a>
+            <a href="portfolio.html" style="font-size: 2vw; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Portfolio</a>
+            <a href="contact.html" style="font-size: 2vw; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Contact</a>
         </div>
     </header>
 
     <main>
         <section id="about">
-            <p style="font-size: 2.5em; width: 38%; color: #112; margin-left: 1%; text-align: center; padding-top: 2%;">Hi, I'm Eric! A Computational and Applied Mathematics Major at CMU who loves interesting problems, working with others, learning, nature, cooking and baking. Feel free to take a look around my page and learn a little more about me!</p>
+            <p style="font-size: 4vh; width: 60%; color: #112; margin-left: 5%; padding-top: 5%;">Hi, I'm Eric! A Computational and Applied Mathematics Major at CMU who loves interesting problems, working with others, learning, nature, cooking and baking. Feel free to take a look around my page and learn a little more about me!</p>
         </section>
         
-        <img src="/20260106_212911.jpg" alt="A cute kitten">
+        <img src="/home/eochis/code/website/20260106_212911.jpg" alt="A cute kitten">
     </main>
 
     <footer>
         <p>&copy; 2026 Eric Ochis</p>
-        <p>Disclaimer: This site is paritially generated by AI.</p>
+        <p>Disclaimer: This site is partially generated by AI.</p>
     </footer>
 
 </body>
