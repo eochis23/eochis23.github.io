@@ -1,213 +1,105 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eric Ochis</title>
-    <style>
-        body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f8ff;
-            text-align: center;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        header {
-            background-color: #beeeaf;
-            color: #ffffff;
-            padding: 0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-        h1 {
-            font-size: 2em;
-            text-shadow: 2px 2px 4px #888888;
-            margin-left: -15%;
-        }
-        nav {
-            background-color: #ffffff;
-            padding: 1em 0;
-        }
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 0.75em 1.5em;
-            background-color: #2e86c1;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-        nav a:hover {
-            background-color: #ffffff;
-        }
-        main {
-            padding: 0.5em;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Changed to align items at top */
-            flex-wrap: wrap; /* Allows boxes to stack on mobile */
-            gap: 20px; /* Adds space between the boxes */
-            flex: 1;
-        }
-        .section-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-        }
-        .resume-box {
-            background-color: #ffffff;
-            padding: 25px;
-            box-shadow: 0 4px 8px #112;
-            width: 40%; /* Slightly smaller to fit two side-by-side */
-            min-width: 300px;
-            margin-bottom: 20px;
-            text-align: center;
-            border-radius: 10px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* New Styles for the Form */
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #2e86c1;
-            border-radius: 5px;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            box-sizing: border-box; /* Ensures padding doesn't break width */
-        }
-        button {
-            background-color: #2e86c1;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #1a5276;
-        }
-
-        footer {
-            background-color: #2e86c1;
-            color: white;
-            text-align: center;
-            padding: 0.3em 0;
-            position: relative;
-            width: 100%;
-            font-size: 0.7em;
-            z-index: 2;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1><a href="index.html" style="font-size: 1.5em; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112; margin-left: -15%;">Eric Ochis</a></h1>
-        <div style="margin-right: -15%;">
-            <a href="about.html" style="font-size: 2em; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">About</a>
-            <a href="portfolio.html" style="font-size: 2em; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Portfolio</a>
-            <a href="contact.html" style="font-size: 2em; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Contact</a>
+<div class="resume-box">
+    <h2 style="font-size: 2em;">Send a Message</h2>
+    <form id="contactForm">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required placeholder="Your Name">
         </div>
-    </header>
-    <main>
-            <div class="resume-box" id="education">
-                <h2 style="font-size: 2em;">Contact Info</h2>
-                <p style="font-size: 1.5em;">Phone: (610) 412-8777</p>
-                <p style="font-size: 1.5em;">Personal Email: eochis@outlook.com</p>
-                <p style="font-size: 1.5em;">School Email: eochis@cmu.edu</p>
-            </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="Your Email">
+        </div>
+        <div class="form-group">
+            <label for="message">Message (or Bullet Points):</label>
+            <textarea id="message" name="message" rows="8" required placeholder="- Type bullets here...
+- And click 'Draft with AI'
+- To turn them into a real email!"></textarea>
+        </div>
+        
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button type="button" id="aiBtn" style="background-color: #8e44ad;">✨ Draft with AI</button>
+            <button type="submit" id="submitBtn">Send Message</button>
+        </div>
+        
+        <p id="statusMessage" style="display:none; margin-top:10px; font-weight:bold;"></p>
+    </form>
+</div>
 
-            <div class="resume-box">
-                <h2 style="font-size: 2em;">Send a Message</h2>
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" required placeholder="Your Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required placeholder="Your Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message:</label>
-                        <textarea id="message" name="message" rows="5" required placeholder="Type your message here..."></textarea>
-                    </div>
-                    <button type="submit" id="submitBtn">Send Message</button>
-                    <p id="statusMessage" style="display:none; margin-top:10px; font-weight:bold;"></p>
-                </form>
-            </div>
-    </main>
-    <footer>
-        <p>&copy; 2026 Eric Ochis</p>
-        <p>Disclaimer: This site is partially generated by AI.</p>
-    </footer>
+<script>
+    const BACKEND_URL = "https://your-app-name.onrender.com"; // UPDATE THIS!
 
-    <script>
-        // REPLACE THIS URL with your actual Render backend URL after you deploy Phase 2
-        const BACKEND_URL = "https://eochis23-github-io.onrender.com"; 
+    // 1. AI DRAFT BUTTON LOGIC
+    document.getElementById('aiBtn').addEventListener('click', async function() {
+        const messageBox = document.getElementById('message');
+        const bullets = messageBox.value;
+        const aiBtn = document.getElementById('aiBtn');
 
-        document.getElementById('contactForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        if (!bullets.trim()) {
+            alert("Please type some bullet points first!");
+            return;
+        }
+
+        // UI Feedback
+        aiBtn.disabled = true;
+        aiBtn.innerText = "✨ Thinking...";
+        
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/draft-email`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bullets: bullets })
+            });
+            const data = await response.json();
             
-            const submitBtn = document.getElementById('submitBtn');
-            const statusMsg = document.getElementById('statusMessage');
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                message: document.getElementById('message').value
-            };
-
-            // UI Feedback: Disable button and show loading
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Sending...";
-            statusMsg.style.display = "none";
-
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/contact`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    statusMsg.innerText = "Thanks! Message received.";
-                    statusMsg.style.color = "green";
-                    document.getElementById('contactForm').reset();
-                } else {
-                    statusMsg.innerText = "Error: " + result.error;
-                    statusMsg.style.color = "red";
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                statusMsg.innerText = "Failed to connect to server.";
-                statusMsg.style.color = "red";
-            } finally {
-                statusMsg.style.display = "block";
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Send Message";
+            if (data.draft) {
+                // Replace the bullets with the generated email
+                messageBox.value = data.draft;
+            } else {
+                alert("Error generating draft.");
             }
-        });
-    </script>
-</body>
-</html>
+        } catch (error) {
+            console.error(error);
+            alert("Failed to reach AI.");
+        } finally {
+            aiBtn.disabled = false;
+            aiBtn.innerText = "✨ Draft with AI";
+        }
+    });
+
+    // 2. SEND BUTTON LOGIC (Same as before)
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        // ... (Keep your existing send logic here) ...
+        const statusMsg = document.getElementById('statusMessage');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
+
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            message: document.getElementById('message').value
+        };
+
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/contact`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            
+            if (response.ok) {
+                statusMsg.style.display = 'block';
+                statusMsg.innerText = "Thanks! Message received.";
+                statusMsg.style.color = "green";
+                document.getElementById('contactForm').reset();
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Send Message";
+        }
+    });
+</script>
