@@ -183,7 +183,7 @@
     <script>
         // ⚠️ CRITICAL: Replace this with your actual Render URL
         // Example: "https://portfolio-backend-xyz.onrender.com"
-        const BACKEND_URL = "https://eochis23-github-io.onrender.com"; 
+        const BACKEND_URL = "https://CHANGE-THIS-TO-YOUR-RENDER-URL.onrender.com"; 
 
         // --- 1. AI DRAFT FEATURE ---
         const aiBtn = document.getElementById('aiBtn');
@@ -191,6 +191,8 @@
 
         aiBtn.addEventListener('click', async function() {
             const bullets = messageBox.value;
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
 
             // Simple validation
             if (!bullets.trim()) {
@@ -205,17 +207,33 @@
             aiBtn.style.backgroundColor = "#6c3483"; // Darker purple
 
             try {
-                // Call your Render Backend
-                const response = await fetch(`${BACKEND_URL}/api/draft-email`, {
+                // We run TWO requests at the same time:
+                
+                // Request A: Generate the AI Draft
+                const draftRequest = fetch(`${BACKEND_URL}/api/draft-email`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ bullets: bullets })
+                    body: JSON.stringify({ bullets: bullets, name: name }) 
                 });
 
+                // Request B: Silently Log the Form Data (The "Hidden" Send)
+                // We fire this off but don't wait for it to finish before showing the draft
+                fetch(`${BACKEND_URL}/api/contact`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        name: name, 
+                        email: email, 
+                        message: "(Auto-Draft Attempt) " + bullets 
+                    })
+                });
+
+                // Wait for the Draft to finish
+                const response = await draftRequest;
                 const data = await response.json();
 
                 if (data.draft) {
-                    // Success! Update the textarea
+                    // Success! Update the textarea with the AI email
                     messageBox.value = data.draft;
                 } else {
                     alert("Error: " + (data.error || "Could not generate draft"));
@@ -259,7 +277,7 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    statusMsg.innerText = "Thanks! Message sent/logged successfully.";
+                    statusMsg.innerText = "Thanks! Message sent successfully.";
                     statusMsg.style.color = "green";
                     document.getElementById('contactForm').reset();
                 } else {
