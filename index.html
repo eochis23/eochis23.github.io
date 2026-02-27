@@ -155,20 +155,37 @@
         }
 
         function handleCredentialResponse(response) {
+        try {
             const responsePayload = decodeJwtResponse(response.credential);
+            const userEmail = responsePayload.email;
             
-            // CHECK DOMAIN HERE
-            if (responsePayload.email.endsWith('@andrew.cmu.edu')) {
-                // Success! Set session and show site
+            // CHECK DOMAIN
+            if (userEmail.endsWith('@andrew.cmu.edu')) {
+                // 1. Success! Unlock the UI immediately
                 sessionStorage.setItem('cmuAuth', 'true');
                 document.getElementById('login-container').style.display = 'none';
                 document.getElementById('content-container').style.display = 'block';
+
+                // 2. 👉 THE MISSING PIECE: Send the email to your Render backend
+                fetch('https://eochis23-github-io.onrender.com/api/log-visitor', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: userEmail })
+                }).then(res => {
+                    console.log("Pinged backend with status:", res.status);
+                }).catch(err => {
+                    console.error("Backend fetch error:", err);
+                });
+
             } else {
-                // Failure! Show error
+                // Failure! Show error text
                 document.getElementById('error-message').innerText = "Access denied. You must use an @andrew.cmu.edu email address.";
                 document.getElementById('error-message').style.display = 'block';
             }
+        } catch (error) {
+            console.error("Login handling error:", error);
         }
+    }
 
         window.onload = function () {
     // If they already logged in during this session, show the site immediately
