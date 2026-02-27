@@ -171,22 +171,23 @@
         }
 
         window.onload = function () {
-            // If they already logged in during this session, show the site immediately
-            if (sessionStorage.getItem('cmuAuth') === 'true') {
-                document.getElementById('login-container').style.display = 'none';
-                document.getElementById('content-container').style.display = 'block';
-            } else {
-                // Otherwise, render the Google button
-                google.accounts.id.initialize({
-                    client_id: "526379188595-uteji192qi0fc36aheui50ogbgkei087.apps.googleusercontent.com", // <-- PASTE YOUR CLIENT ID HERE
-                    callback: handleCredentialResponse
-                });
-                google.accounts.id.renderButton(
-                    document.getElementById("buttonDiv"),
-                    { theme: "outline", size: "large" }  
-                );
-            }
-        }
+    // If they already logged in during this session, show the site immediately
+    if (sessionStorage.getItem('cmuAuth') === 'true') {
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('content-container').style.display = 'block';
+    } else {
+        // Otherwise, render the Google button
+        google.accounts.id.initialize({
+            client_id: "526379188595-uteji192qi0fc36aheui50ogbgkei087.apps.googleusercontent.com", // <-- PASTE YOUR CLIENT ID HERE
+            callback: handleCredentialResponse,
+            hd: "andrew.cmu.edu" // <-- THIS IS THE MAGIC LINE
+        });
+        google.accounts.id.renderButton(
+            document.getElementById("buttonDiv"),
+            { theme: "outline", size: "large" }  
+        );
+    }
+}
     </script>
 </body>
 </html>
