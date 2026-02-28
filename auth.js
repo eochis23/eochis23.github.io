@@ -8,8 +8,8 @@ window.handleCredentialResponse = function(response) {
         name: responsePayload.name,
         firstName: responsePayload.given_name,
         email: responsePayload.email,
-        picture: responsePayload.picture,
-        rating: "1500", // Default starting rating
+        picture: responsePayload.picture, // Google Profile Image URL
+        rating: "1500", 
         record: "0W - 0L - 0D"
     };
 
@@ -18,6 +18,8 @@ window.handleCredentialResponse = function(response) {
         // Store auth state for the session
         sessionStorage.setItem('cmuAuth', 'true');
         sessionStorage.setItem('userData', JSON.stringify(userData));
+
+        console.log("✅ Authenticated as:", userData.name);
 
         // --- UI Logic for Main Page ---
         const loginContainer = document.getElementById('login-container');
@@ -29,7 +31,7 @@ window.handleCredentialResponse = function(response) {
         }
 
         // --- UI Logic for Chess Page ---
-        // This calls the function we built in your Chess main.js
+        // Syncs the data to the functions in main.js
         if (window.updatePlayerProfile) {
             window.updatePlayerProfile(userData);
         }
@@ -61,7 +63,6 @@ function decodeJwtResponse(token) {
 // Helper: Send data to your Render Backend
 async function logVisitorToBackend(user) {
     try {
-        // Using your specific Render URL from your server.js
         const response = await fetch('https://eochis23-github-io.onrender.com/api/log-visitor', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

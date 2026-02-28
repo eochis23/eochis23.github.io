@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="/auth.js"></script>
-    <script>
-        // Automatically sync profile if already logged in
-        window.addEventListener('load', () => {
-            const savedUser = sessionStorage.getItem('userData');
-            if (savedUser && window.updatePlayerProfile) {
-                window.updatePlayerProfile(JSON.parse(savedUser));
-            }
-        });
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crazyhouse Sandbox</title>
+    
+    <script src="/auth.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <style>
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -21,7 +15,6 @@
             text-align: center;
             margin: 0;
             padding: 20px;
-            /* Prevent text highlighting across the whole site */
             -webkit-user-select: none;
             -ms-user-select: none;
             user-select: none;
@@ -32,12 +25,10 @@
             text-shadow: 1px 1px 2px #888888;
         }
 
-        /* Ensure images and pieces don't get that "ghost" drag effect */
         img, cg-piece {
             -webkit-user-drag: none;
         }
 
-        /* Allow typing and highlighting inside the chat */
         input, textarea {
             -webkit-user-select: text;
             -ms-user-select: text;
@@ -68,7 +59,6 @@
             box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
         }
 
-        /* Profile Cards */
         .user-card {
             display: flex;
             align-items: center;
@@ -114,7 +104,6 @@
             margin-top: 2px;
         }
 
-        /* Pockets (Slimmer version) */
         .pocket {
             width: 90px;
             height: auto; 
@@ -136,92 +125,6 @@
             text-align: center;
         }
 
-        /* Pocket Piece Slots (Slimmer version) */
-        .pocket-slot {
-            position: relative;
-            width: 45px;
-            height: 45px;
-            margin-top: 8px;
-        }
-
-        .pocket-slot cg-piece {
-            width: 45px;
-            height: 45px;
-            background-size: cover;
-            cursor: grab;
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .piece-count {
-            position: absolute;
-            bottom: -2px;
-            right: -2px;
-            background: #222;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 10px;
-            border: 2px solid #beeeaf;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        /* Promotion UI */
-        #promotion-wrapper {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            background: rgba(0,0,0,0.4);
-            z-index: 100;
-        }
-
-        .promotion-dialog {
-            background: #f0f8ff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            display: flex;
-            gap: 10px;
-        }
-
-        .promo-piece {
-            width: 60px;
-            height: 60px;
-            background-size: cover;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: background-color 0.2s;
-        }
-
-        .promo-piece:hover { background-color: #beeeaf; }
-
-        .promotion-dialog.white .promo-queen { background-image: url('https://lichess1.org/assets/piece/cburnett/wQ.svg'); }
-        .promotion-dialog.white .promo-rook { background-image: url('https://lichess1.org/assets/piece/cburnett/wR.svg'); }
-        .promotion-dialog.white .promo-bishop { background-image: url('https://lichess1.org/assets/piece/cburnett/wB.svg'); }
-        .promotion-dialog.white .promo-knight { background-image: url('https://lichess1.org/assets/piece/cburnett/wN.svg'); }
-        .promotion-dialog.black .promo-queen { background-image: url('https://lichess1.org/assets/piece/cburnett/bQ.svg'); }
-        .promotion-dialog.black .promo-rook { background-image: url('https://lichess1.org/assets/piece/cburnett/bR.svg'); }
-        .promotion-dialog.black .promo-bishop { background-image: url('https://lichess1.org/assets/piece/cburnett/bB.svg'); }
-        .promotion-dialog.black .promo-knight { background-image: url('https://lichess1.org/assets/piece/cburnett/bN.svg'); }
-
-        .pocket cg-piece.white.pawn { background-image: url('https://lichess1.org/assets/piece/cburnett/wP.svg'); }
-        .pocket cg-piece.white.knight { background-image: url('https://lichess1.org/assets/piece/cburnett/wN.svg'); }
-        .pocket cg-piece.white.bishop { background-image: url('https://lichess1.org/assets/piece/cburnett/wB.svg'); }
-        .pocket cg-piece.white.rook { background-image: url('https://lichess1.org/assets/piece/cburnett/wR.svg'); }
-        .pocket cg-piece.white.queen { background-image: url('https://lichess1.org/assets/piece/cburnett/wQ.svg'); }
-        .pocket cg-piece.black.pawn { background-image: url('https://lichess1.org/assets/piece/cburnett/bP.svg'); }
-        .pocket cg-piece.black.knight { background-image: url('https://lichess1.org/assets/piece/cburnett/bN.svg'); }
-        .pocket cg-piece.black.bishop { background-image: url('https://lichess1.org/assets/piece/cburnett/bB.svg'); }
-        .pocket cg-piece.black.rook { background-image: url('https://lichess1.org/assets/piece/cburnett/bR.svg'); }
-        .pocket cg-piece.black.queen { background-image: url('https://lichess1.org/assets/piece/cburnett/bQ.svg'); }
-
-        /* --- THE UNIFIED SIDEBAR WIDGET --- */
         .sidebar {
             display: flex;
             flex-direction: column;
@@ -229,8 +132,6 @@
             height: 500px;     
             margin-top: 76px;  
             box-sizing: border-box;
-            
-            /* Give the whole sidebar a single, unified look */
             background: #fff;
             border-radius: 6px;
             box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
@@ -238,7 +139,6 @@
             overflow: hidden; 
         }
 
-        /* 1. Move History */
         .move-history-container {
             flex: 1; 
             overflow-y: auto;
@@ -251,16 +151,6 @@
             border-bottom: 1px solid #ddd; 
         }
 
-        .move-row {
-            display: flex;
-            padding: 2px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .move-num { width: 35px; color: #888; font-weight: bold; }
-        .move-san { flex: 1; color: #333; font-weight: bold; }
-
-        /* 2. Chat Box */
         .chat-container {
             height: 180px; 
             flex: none;
@@ -279,9 +169,6 @@
             gap: 8px;
             font-size: 14px;
         }
-
-        .chat-msg.system { color: #888; font-style: italic; font-size: 12px; text-align: center; }
-        .chat-msg .author { font-weight: bold; margin-right: 5px; color: #112; }
 
         .chat-input-area {
             display: flex;
@@ -308,9 +195,7 @@
             font-weight: bold;
             color: #333;
         }
-        #chat-send:hover { background: #e0f0ff; }
 
-        /* 3. Game Controls */
         .game-controls {
             display: flex;
             gap: 10px;
@@ -333,109 +218,117 @@
             transition: all 0.2s;
         }
 
-        .control-btn:hover { background: #eee; }
-        .control-btn:active { transform: translateY(1px); box-shadow: none; }
-        
-        #btn-resign { color: #d9534f; }
-        #btn-new-game { background: #beeeaf; color: #112; border-color: #9ccc8f; width: 100%; display: none; }
+        #promotion-wrapper {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.4);
+            z-index: 100;
+        }
+
+        .promotion-dialog {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            display: flex;
+            gap: 10px;
+        }
     </style>
   <script type="module" crossorigin src="/crazyhouse/assets/index-Dge_iUE7.js"></script>
   <link rel="stylesheet" crossorigin href="/crazyhouse/assets/index-D1wC9UDJ.css">
 </head>
 <body>
 
-    <h1>Crazyhouse Sandbox</h1>
     <div id="login-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-color: #ffffe0; z-index: 999; position: absolute; width: 100%; top: 0; left: 0;">
         <h1 style="font-size: 3vw; color: #112; text-shadow: none; margin: 0 0 20px 0;">CMU Access Only</h1>
         <p style="font-size: 1.5vw; color: #333; margin-bottom: 20px;">Please sign in with your @andrew.cmu.edu email to play.</p>
-        
         <div id="buttonDiv"></div>
         <p id="error-message" style="color: red; display: none; margin-top: 15px; font-weight: bold;"></p>
     </div>
 
     <div id="content-container" style="display: none;">
-        </div>
-    <div class="game-container cburnett">
-        <div class="pocket" id="white-pocket">
-            <span class="pocket-label">White<br>Reserves</span>
-        </div>
+        <h1>Crazyhouse Sandbox</h1>
 
-        <div class="board-column">
-            <div class="user-card opponent">
-                <img id="opponent-avatar" src="https://ui-avatars.com/api/?name=?&background=ddd&color=999" alt="Opponent" class="avatar">
-                <div class="user-info">
-                    <span id="opponent-username" class="username">Waiting for opponent...</span>
-                    <span id="opponent-rating" class="rating">----</span>
-                    <span id="opponent-record" class="record">0W - 0L - 0D</span>
-                </div>
+        <div class="game-container cburnett">
+            <div class="pocket" id="white-pocket">
+                <span class="pocket-label">White<br>Reserves</span>
             </div>
 
-            <div style="position: relative;">
-                <div id="cg-board" class="brown"></div>
-                
-                <div id="promotion-wrapper">
-                    <div id="promotion-dialog" class="promotion-dialog">
-                        <div class="promo-piece promo-queen" data-role="queen"></div>
-                        <div class="promo-piece promo-knight" data-role="knight"></div>
-                        <div class="promo-piece promo-rook" data-role="rook"></div>
-                        <div class="promo-piece promo-bishop" data-role="bishop"></div>
+            <div class="board-column">
+                <div class="user-card opponent">
+                    <img id="opponent-avatar" src="https://ui-avatars.com/api/?name=?&background=ddd&color=999" alt="Opponent" class="avatar">
+                    <div class="user-info">
+                        <span id="opponent-username" class="username">Waiting for opponent...</span>
+                        <span id="opponent-rating" class="rating">----</span>
+                        <span id="opponent-record" class="record">0W - 0L - 0D</span>
+                    </div>
+                </div>
+
+                <div style="position: relative;">
+                    <div id="cg-board" class="brown"></div>
+                    <div id="promotion-wrapper">
+                        <div id="promotion-dialog" class="promotion-dialog">
+                            <div class="promo-piece promo-queen" data-role="queen"></div>
+                            <div class="promo-piece promo-knight" data-role="knight"></div>
+                            <div class="promo-piece promo-rook" data-role="rook"></div>
+                            <div class="promo-piece promo-bishop" data-role="bishop"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-card player">
+                    <img id="player-avatar" src="https://ui-avatars.com/api/?name=Me" alt="You" class="avatar">
+                    <div class="user-info">
+                        <span id="player-username" class="username">Eric Ochis</span>
+                        <span id="player-rating" class="rating">1500</span>
+                        <span id="player-record" class="record">0W - 0L - 0D</span>
                     </div>
                 </div>
             </div>
 
-            <div class="user-card player">
-                <img id="player-avatar" src="https://i.pravatar.cc/150?u=eric" alt="You" class="avatar">
-                <div class="user-info">
-                    <span id="player-username" class="username">Eric Ochis</span>
-                    <span id="player-rating" class="rating">1500</span>
-                    <span id="player-record" class="record">0W - 0L - 0D</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="pocket" id="black-pocket">
-            <span class="pocket-label">Black<br>Reserves</span>
-        </div>
-
-        <div class="sidebar">
-            
-            <div class="move-history-container" id="move-history">
-                </div>
-
-            <div class="chat-container">
-                <div class="chat-history" id="chat-history">
-                    <div class="chat-msg system">Waiting for opponent...</div>
-                    <div class="chat-msg system">Game started. Good luck!</div>
-                </div>
-                <div class="chat-input-area">
-                    <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off">
-                    <button id="chat-send">Send</button>
-                </div>
+            <div class="pocket" id="black-pocket">
+                <span class="pocket-label">Black<br>Reserves</span>
             </div>
 
-            <div class="game-controls">
-                <button id="btn-draw" class="control-btn">½ Offer Draw</button>
-                <button id="btn-resign" class="control-btn">⚐ Resign</button>
-                <button id="btn-new-game" class="control-btn" style="display: none;">+ New Game</button>
+            <div class="sidebar">
+                <div class="move-history-container" id="move-history"></div>
+                <div class="chat-container">
+                    <div class="chat-history" id="chat-history"></div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off">
+                        <button id="chat-send">Send</button>
+                    </div>
+                </div>
+                <div class="game-controls">
+                    <button id="btn-draw" class="control-btn">½ Offer Draw</button>
+                    <button id="btn-resign" class="control-btn">⚐ Resign</button>
+                    <button id="btn-new-game" class="control-btn" style="display: none;">+ New Game</button>
+                </div>
             </div>
-
         </div>
     </div>
 
     <script>
         window.onload = function () {
-            // Check if the user is already logged in from the main site
+            // Check session storage for existing CMU auth
             if (sessionStorage.getItem('cmuAuth') === 'true') {
                 document.getElementById('login-container').style.display = 'none';
                 document.getElementById('content-container').style.display = 'block';
                 
-                // Sync the profile data immediately
                 const savedUser = sessionStorage.getItem('userData');
-                if (savedUser && window.updatePlayerProfile) {
-                    window.updatePlayerProfile(JSON.parse(savedUser));
+                if (savedUser) {
+                    const user = JSON.parse(savedUser);
+                    // Timeout ensures main.js module is ready to accept function calls
+                    setTimeout(() => {
+                        if (window.updatePlayerProfile) {
+                            window.updatePlayerProfile(user);
+                        }
+                    }, 400); 
                 }
             } else {
-                // Initialize Google Sign-In if no session exists
                 google.accounts.id.initialize({
                     client_id: "526379188595-uteji192qi0fc36aheui50ogbgkei087.apps.googleusercontent.com",
                     callback: handleCredentialResponse,
