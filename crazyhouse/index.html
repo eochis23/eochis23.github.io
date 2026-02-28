@@ -302,7 +302,7 @@
         .promotion-dialog.black .promo-knight { background-image: url('https://lichess1.org/assets/piece/cburnett/bN.svg'); }
 
     </style>
-  <script type="module" crossorigin src="/crazyhouse/assets/index-a5l8bgfY.js"></script>
+  <script type="module" crossorigin src="/crazyhouse/assets/index-C-nZLbhf.js"></script>
 </head>
 <body>
 
@@ -389,13 +389,13 @@
                         if (window.updatePlayerProfile) {
                             window.updatePlayerProfile(user);
                         }
-                    }, 500); 
+                    }, 400); 
                 }
             } else {
                 google.accounts.id.initialize({
                     client_id: "526379188595-uteji192qi0fc36aheui50ogbgkei087.apps.googleusercontent.com",
-                    callback: handleCredentialResponse
-                    // hd: "andrew.cmu.edu"
+                    callback: handleCredentialResponse,
+                    hd: "andrew.cmu.edu"
                 });
                 google.accounts.id.renderButton(
                     document.getElementById("buttonDiv"),
