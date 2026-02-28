@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eric Ochis</title>
+    <script src="/auth.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <style>
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -54,30 +57,19 @@
         }
 
         section {
-            /* Basic styling */
             padding: 25px;
-            /* Box shadow removed because it looks weird on a transparent fade */
-            /* box-shadow: 0 4px 8px #112; */ 
             text-align: left;
-            
-            /* --- GRADIENT LOGIC --- */
-            /* 1. Solid Blue until 50vh from the right edge */
-            /* 2. Transition to Gray by 20vh from the right edge */
-            /* 3. Fully Transparent at the exact right edge (100%) */
             background: linear-gradient(to right, 
                 #beeeef, 
                 #beeeef calc(100% - 80vh), 
                 #8e9288 calc(100% - 40vh), 
                 transparent 100%
             );
-            
             height: 100%;
             box-sizing: border-box;
             width: calc(100vw - 30vh); 
             position: relative;
             z-index: 10; 
-            
-            /* REMOVED: clip-path: polygon(...) is gone, so no angled cut. */
         }
 
         img {
@@ -143,69 +135,25 @@
         </footer>
     </div>
 
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-        // Function to decode the Google JWT response to read the email
-        function decodeJwtResponse(token) {
-            let base64Url = token.split('.')[1];
-            let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
-        }
-
-        function handleCredentialResponse(response) {
-        try {
-            const responsePayload = decodeJwtResponse(response.credential);
-            const userEmail = responsePayload.email;
-            const userFirstName = responsePayload.given_name; // <-- Grab the first name
-            
-            // CHECK DOMAIN
-            if (userEmail.endsWith('@andrew.cmu.edu')) {
-                // 1. Success! Unlock the UI immediately
-                sessionStorage.setItem('cmuAuth', 'true');
+        window.onload = function () {
+            // Check session storage for existing auth
+            if (sessionStorage.getItem('cmuAuth') === 'true') {
                 document.getElementById('login-container').style.display = 'none';
                 document.getElementById('content-container').style.display = 'block';
-
-                // 2. Send the email AND first name to your Render backend
-                fetch('https://eochis23-github-io.onrender.com/api/log-visitor', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: userEmail, firstName: userFirstName }) // <-- Add it here
-                }).then(res => {
-                    console.log("Pinged backend with status:", res.status);
-                }).catch(err => {
-                    console.error("Backend fetch error:", err);
-                });
-
             } else {
-                // Failure! Show error text
-                document.getElementById('error-message').innerText = "Access denied. You must use an @andrew.cmu.edu email address.";
-                document.getElementById('error-message').style.display = 'block';
+                // Initialize Google Sign-In using the callback from auth.js
+                google.accounts.id.initialize({
+                    client_id: "526379188595-uteji192qi0fc36aheui50ogbgkei087.apps.googleusercontent.com",
+                    callback: handleCredentialResponse,
+                    hd: "andrew.cmu.edu" // Restricts to CMU domain in the selector
+                });
+                google.accounts.id.renderButton(
+                    document.getElementById("buttonDiv"),
+                    { theme: "outline", size: "large" }  
+                );
             }
-        } catch (error) {
-            console.error("Login handling error:", error);
         }
-    }
-        window.onload = function () {
-    // If they already logged in during this session, show the site immediately
-    if (sessionStorage.getItem('cmuAuth') === 'true') {
-        document.getElementById('login-container').style.display = 'none';
-        document.getElementById('content-container').style.display = 'block';
-    } else {
-        // Otherwise, render the Google button
-        google.accounts.id.initialize({
-            client_id: "526379188595-uteji192qi0fc36aheui50ogbgkei087.apps.googleusercontent.com", // <-- PASTE YOUR CLIENT ID HERE
-            callback: handleCredentialResponse,
-            hd: "andrew.cmu.edu" // <-- THIS IS THE MAGIC LINE
-        });
-        google.accounts.id.renderButton(
-            document.getElementById("buttonDiv"),
-            { theme: "outline", size: "large" }  
-        );
-    }
-}
     </script>
 </body>
 </html>
