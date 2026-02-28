@@ -59,6 +59,7 @@
             box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
         }
 
+        /* Profile Cards */
         .user-card {
             display: flex;
             align-items: center;
@@ -104,6 +105,7 @@
             margin-top: 2px;
         }
 
+        /* Pockets */
         .pocket {
             width: 90px;
             height: auto; 
@@ -125,6 +127,52 @@
             text-align: center;
         }
 
+        .pocket-slot {
+            position: relative;
+            width: 45px;
+            height: 45px;
+            margin-top: 8px;
+        }
+
+        .pocket-slot cg-piece {
+            width: 45px;
+            height: 45px;
+            background-size: cover;
+            cursor: grab;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .piece-count {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            background: #222;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 10px;
+            border: 2px solid #beeeaf;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Piece SVGs */
+        .pocket cg-piece.white.pawn { background-image: url('https://lichess1.org/assets/piece/cburnett/wP.svg'); }
+        .pocket cg-piece.white.knight { background-image: url('https://lichess1.org/assets/piece/cburnett/wN.svg'); }
+        .pocket cg-piece.white.bishop { background-image: url('https://lichess1.org/assets/piece/cburnett/wB.svg'); }
+        .pocket cg-piece.white.rook { background-image: url('https://lichess1.org/assets/piece/cburnett/wR.svg'); }
+        .pocket cg-piece.white.queen { background-image: url('https://lichess1.org/assets/piece/cburnett/wQ.svg'); }
+        .pocket cg-piece.black.pawn { background-image: url('https://lichess1.org/assets/piece/cburnett/bP.svg'); }
+        .pocket cg-piece.black.knight { background-image: url('https://lichess1.org/assets/piece/cburnett/bN.svg'); }
+        .pocket cg-piece.black.bishop { background-image: url('https://lichess1.org/assets/piece/cburnett/bB.svg'); }
+        .pocket cg-piece.black.rook { background-image: url('https://lichess1.org/assets/piece/cburnett/bR.svg'); }
+        .pocket cg-piece.black.queen { background-image: url('https://lichess1.org/assets/piece/cburnett/bQ.svg'); }
+
+        /* Sidebar */
         .sidebar {
             display: flex;
             flex-direction: column;
@@ -214,10 +262,10 @@
             border: 1px solid #ccc;
             border-radius: 6px;
             background: #fff;
-            box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
             transition: all 0.2s;
         }
 
+        /* Promotion UI */
         #promotion-wrapper {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -232,10 +280,27 @@
             background: #f0f8ff;
             padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             display: flex;
             gap: 10px;
         }
+
+        .promo-piece {
+            width: 60px;
+            height: 60px;
+            background-size: cover;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .promotion-dialog.white .promo-queen { background-image: url('https://lichess1.org/assets/piece/cburnett/wQ.svg'); }
+        .promotion-dialog.white .promo-rook { background-image: url('https://lichess1.org/assets/piece/cburnett/wR.svg'); }
+        .promotion-dialog.white .promo-bishop { background-image: url('https://lichess1.org/assets/piece/cburnett/wB.svg'); }
+        .promotion-dialog.white .promo-knight { background-image: url('https://lichess1.org/assets/piece/cburnett/wN.svg'); }
+        .promotion-dialog.black .promo-queen { background-image: url('https://lichess1.org/assets/piece/cburnett/bQ.svg'); }
+        .promotion-dialog.black .promo-rook { background-image: url('https://lichess1.org/assets/piece/cburnett/bR.svg'); }
+        .promotion-dialog.black .promo-bishop { background-image: url('https://lichess1.org/assets/piece/cburnett/bB.svg'); }
+        .promotion-dialog.black .promo-knight { background-image: url('https://lichess1.org/assets/piece/cburnett/bN.svg'); }
+
     </style>
   <script type="module" crossorigin src="/crazyhouse/assets/index-Dge_iUE7.js"></script>
   <link rel="stylesheet" crossorigin href="/crazyhouse/assets/index-D1wC9UDJ.css">
@@ -313,7 +378,6 @@
 
     <script>
         window.onload = function () {
-            // Check session storage for existing CMU auth
             if (sessionStorage.getItem('cmuAuth') === 'true') {
                 document.getElementById('login-container').style.display = 'none';
                 document.getElementById('content-container').style.display = 'block';
@@ -321,7 +385,7 @@
                 const savedUser = sessionStorage.getItem('userData');
                 if (savedUser) {
                     const user = JSON.parse(savedUser);
-                    // Timeout ensures main.js module is ready to accept function calls
+                    // Timeout ensures main.js is loaded and ready
                     setTimeout(() => {
                         if (window.updatePlayerProfile) {
                             window.updatePlayerProfile(user);
