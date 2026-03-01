@@ -53,6 +53,9 @@
             flex-wrap: wrap;
             justify-content: space-around;
             padding: 20px;
+            /* This ensures boxes in the same row align nicely but can still grow */
+            align-items: stretch; 
+            gap: 20px;
         }
         .resume-box {
             background-color: #ffffff;
@@ -64,7 +67,12 @@
             border-radius: 10px;
             position: relative;
             z-index: 1;
-            min-height: 200px;
+            /* CRITICAL FIXES BELOW */
+            height: auto;          /* Allow box to expand vertically */
+            min-height: 250px;     /* Minimum size for empty looking boxes */
+            overflow: visible;     /* Ensure no internal scrollbars appear */
+            display: flex;
+            flex-direction: column;
         }
         footer {
             background-color: #2e86c1;
