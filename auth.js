@@ -4,13 +4,13 @@ window.handleCredentialResponse = function(response) {
     const responsePayload = decodeJwtResponse(response.credential);
 
     // 1. Prepare User Data Object
+    // auth.js - Inside window.handleCredentialResponse
     const userData = {
-        name: responsePayload.name,
-        firstName: responsePayload.given_name,
-        email: responsePayload.email,
-        picture: responsePayload.picture, // Google Profile Image URL
-        rating: "1500", 
-        record: "0W - 0L - 0D"
+    name: responsePayload.name,
+    firstName: responsePayload.given_name,
+    email: responsePayload.email,
+    picture: responsePayload.picture
+    // DELETED: rating and record 
     };
 
     // 2. Security Check: Ensure it's a CMU email
