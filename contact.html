@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eric Ochis - Contact</title>
+    <title>Eric Ochis</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -11,10 +12,10 @@
             padding: 0;
             background-color: #f0f8ff;
             text-align: center;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
+        /* Utility class to hide content */
+        .hidden { display: none !important; }
+
         header {
             background-color: #beeeaf;
             color: #ffffff;
@@ -40,261 +41,159 @@
             border-radius: 8px;
             transition: background-color 0.3s ease;
         }
-        nav a:hover {
-            background-color: #ffffff;
-        }
+        nav a:hover { background-color: #ffffff; }
         main {
             padding: 0.5em;
+            display: block;
+            position: relative;
+            margin-top: 0px;
+        }
+        .section-container {
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
             flex-wrap: wrap;
-            gap: 20px;
-            flex: 1;
+            justify-content: space-around;
+            padding: 20px;
         }
         .resume-box {
             background-color: #ffffff;
             padding: 25px;
             box-shadow: 0 4px 8px #112;
-            width: 40%;
-            min-width: 300px;
+            width: 45%;
             margin-bottom: 20px;
-            text-align: center;
+            text-align: left;
             border-radius: 10px;
             position: relative;
             z-index: 1;
+            min-height: 200px;
         }
-        
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #2e86c1;
-            border-radius: 5px;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            box-sizing: border-box;
-            font-size: 1em;
-        }
-        
-        /* Button Styles */
-        .btn-container {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 15px;
-        }
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: transform 0.2s, opacity 0.2s;
-            color: white;
-        }
-        button:hover {
-            transform: scale(1.05);
-        }
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        #submitBtn {
-            background-color: #2e86c1;
-        }
-        #aiBtn {
-            background-color: #8e44ad; /* Purple for AI Magic */
-        }
-
         footer {
             background-color: #2e86c1;
             color: white;
             text-align: center;
             padding: 0.3em 0;
             position: relative;
+            bottom: 0;
             width: 100%;
             font-size: 0.7em;
             z-index: 2;
         }
+        /* Login Overlay */
+        #login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffffe0;
+            position: fixed; /* Fixed so it covers everything */
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h1><a href="index.html" style="font-size: 3.5vw; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112; margin-left: -15%;">Eric Ochis</a></h1>
-        <div style="margin-right: -15%;"> 
-            <a href="about.html" style="font-size: 2vw; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">About</a>
-            <a href="portfolio.html" style="font-size: 2vw; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Portfolio</a>
-            <a href="contact.html" style="font-size: 2vw; color: white; margin-right: 15px; text-decoration: none; text-shadow: 1px 1px 2px #112;">Contact</a>
-            <a href="/crazyhouse/" style="font-size: 2vw; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Chess</a>
-        </div>
-    </header>
-    <main>
-            <div class="resume-box">
-                <h2 style="font-size: 2em;">Contact Info</h2>
-                <p style="font-size: 1.5em;">Phone: (610) 412-8777</p>
-                <p style="font-size: 1.5em;">Personal Email: eochis@outlook.com</p>
-                <p style="font-size: 1.5em;">School Email: eochis@cmu.edu</p>
-            </div>
+    <div id="login-container">
+        <h1 style="font-size: 3vw; color: #112; text-shadow: none; margin: 0 0 20px 0;">Please log in</h1>
+        <div id="buttonDiv"></div>
+        <p id="error-message" style="color: red; display: none; margin-top: 15px; font-weight: bold;"></p>
+    </div>
 
-            <div class="resume-box">
-                <h2 style="font-size: 2em;">Send a Message</h2>
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" required placeholder="Your Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required placeholder="Your Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message:</label>
-                        <textarea id="message" name="message" rows="8" required placeholder="- Write a message here
-- Or type bullet points...
-- Then click 'Draft with AI'"></textarea>
-                    </div>
-                    
-                    <div class="btn-container">
-                        <button type="button" id="aiBtn">✨ Draft with AI</button>
-                        <button type="submit" id="submitBtn">Send Message</button>
-                    </div>
-                    
-                    <p id="statusMessage" style="display:none; margin-top:10px; font-weight:bold;"></p>
-                </form>
+    <div id="content-container" class="hidden">
+        <header>
+            <h1><a href="index.html" style="font-size: 3.5vw; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112; margin-left: -15%;">Eric Ochis</a></h1>
+            <div style="margin-right: -15%;"> 
+                <a href="about.html" style="font-size: 2vw; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">About</a>
+                <a href="portfolio.html" style="font-size: 2vw; margin-right: 15px; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Portfolio</a>
+                <a href="contact.html" style="font-size: 2vw; color: white; margin-right: 15px; text-decoration: none; text-shadow: 1px 1px 2px #112;">Contact</a>
+                <a href="/crazyhouse/" style="font-size: 2vw; color: white; text-decoration: none; text-shadow: 1px 1px 2px #112;">Chess</a>
             </div>
-    </main>
-    <footer>
-        <p>&copy; 2026 Eric Ochis</p>
-        <p>Disclaimer: This site is partially generated by AI.</p>
-    </footer>
+        </header>
+        <main>
+            <div class="section-container">
+                <div class="resume-box" id="about">
+                    <h2>15-112 Project 2</h2>
+                    <h3>A from-scratch 3D graphics project to showcase my linear algebra skills</h3>
+                    <iframe width="100%" height="400" src="https://academy.cs.cmu.edu/sharing/brownGoat4737/embed" style="border:none;"></iframe>
+                </div>
+                
+                <div class="resume-box" id="link">
+                    <h2><a href="https://github.com/eochis23/crossy-road-1-hr-15113" target="_blank">1 hour crossy road challenge</a></h2>
+                </div>
+
+                <div class="resume-box">
+                    <h2><a href="https://github.com/eochis23/113-Hwk-3" target="_blank">LLM vs. Chess Engine Homework assignment</a></h2>
+                    <p>I used the gemini API to call gemini to play chess against a locally installed chess AI. The AI is prompted to return moves in standard notation. If the AI hallucinates, the game logic chooses which piece it "meant" to move.</p>
+                </div>
+                
+                <div class="resume-box">
+                    <h2><a href="https://github.com/eochis23/website-backend" target="_blank">Portfolio Backend & AI Integration</a></h2>
+                    <p>Custom Node.js/Express backend on Render. Features a "Draft with AI" tool using Gemini API to transform bullet points into polished email drafts.</p>
+                </div>
+
+                <div class="resume-box">
+                    <h3>Project 2: Online Chess</h3>
+                    <a href="https://github.com/eochis23/15113-project-2" target="_blank">View on GitHub</a>
+                    <ul>
+                        <li><strong>Engine:</strong> Real-time Crazyhouse engine with capture pockets and move validation.</li>
+                        <li><strong>Multiplayer:</strong> Node.js and Socket.io backend for private game rooms.</li>
+                        <li><strong>Matchmaking:</strong> Dynamic queuing using CMU-restricted Google Auth.</li>
+                    </ul>
+                </div>
+
+                <div class="resume-box">
+                    <h2>And more to come...</h2>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2026 Eric Ochis | Disclaimer: This site is partially generated by AI.</p>
+        </footer>
+    </div>
 
     <script>
-        // ⚠️ CRITICAL: Replace this with your actual Render URL
-        // Example: "https://portfolio-backend-xyz.onrender.com"
-        const BACKEND_URL = "https://eochis23-github-io.onrender.com"; 
-
-        // --- 1. AI DRAFT FEATURE ---
-        const aiBtn = document.getElementById('aiBtn');
-        const messageBox = document.getElementById('message');
-
-        aiBtn.addEventListener('click', async function() {
-            const bullets = messageBox.value;
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-
-            // Simple validation
-            if (!bullets.trim()) {
-                alert("Please type some bullet points in the message box first!");
-                return;
-            }
-
-            // UI Feedback (Loading state)
-            const originalText = aiBtn.innerText;
-            aiBtn.disabled = true;
-            aiBtn.innerText = "✨ Thinking...";
-            aiBtn.style.backgroundColor = "#6c3483"; // Darker purple
-
+        // --- 4. AUTH LOGIC ---
+        function decodeJwt(token) {
             try {
-                // We run TWO requests at the same time:
-                
-                // Request A: Generate the AI Draft
-                const draftRequest = fetch(`${BACKEND_URL}/api/draft-email`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ bullets: bullets, name: name }) 
-                });
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                return JSON.parse(window.atob(base64));
+            } catch (e) { return null; }
+        }
 
-                // Request B: Silently Log the Form Data (The "Hidden" Send)
-                // We fire this off but don't wait for it to finish before showing the draft
-                fetch(`${BACKEND_URL}/api/contact`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        name: name, 
-                        email: email, 
-                        message: "(Auto-Draft Attempt) " + bullets 
-                    })
-                });
-
-                // Wait for the Draft to finish
-                const response = await draftRequest;
-                const data = await response.json();
-
-                if (data.draft) {
-                    // Success! Update the textarea with the AI email
-                    messageBox.value = data.draft;
-                } else {
-                    alert("Error: " + (data.error || "Could not generate draft"));
-                }
-            } catch (error) {
-                console.error("AI Error:", error);
-                alert("Failed to connect to AI. Check console for details.");
-            } finally {
-                // Reset Button
-                aiBtn.disabled = false;
-                aiBtn.innerText = originalText;
-                aiBtn.style.backgroundColor = "#8e44ad";
+        function handleCredentialResponse(response) {
+            const data = decodeJwt(response.credential);
+            if (data && data.hd === "andrew.cmu.edu") {
+                sessionStorage.setItem('cmuAuth', 'true');
+                showContent();
+            } else {
+                const err = document.getElementById('error-message');
+                err.innerText = "Access restricted to @andrew.cmu.edu accounts.";
+                err.style.display = 'block';
             }
-        });
+        }
 
-        // --- 2. SEND MESSAGE FEATURE ---
-        document.getElementById('contactForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const statusMsg = document.getElementById('statusMessage');
-            
-            // UI Feedback
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Sending...";
-            statusMsg.style.display = "none";
+        function showContent() {
+            document.getElementById('login-container').classList.add('hidden');
+            document.getElementById('content-container').classList.remove('hidden');
+        }
 
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                message: document.getElementById('message').value
-            };
-
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/contact`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
+        window.onload = function () {
+            if (sessionStorage.getItem('cmuAuth') === 'true') {
+                showContent();
+            } else {
+                google.accounts.id.initialize({
+                    client_id: "526379188595-uteji192qi0fc36aheui50ogbgkei087.apps.googleusercontent.com",
+                    callback: handleCredentialResponse,
+                    hd: "andrew.cmu.edu"
                 });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    statusMsg.innerText = "Thanks! Message sent successfully.";
-                    statusMsg.style.color = "green";
-                    document.getElementById('contactForm').reset();
-                } else {
-                    statusMsg.innerText = "Error: " + result.error;
-                    statusMsg.style.color = "red";
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                statusMsg.innerText = "Failed to connect to server.";
-                statusMsg.style.color = "red";
-            } finally {
-                statusMsg.style.display = "block";
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Send Message";
+                google.accounts.id.renderButton(
+                    document.getElementById("buttonDiv"),
+                    { theme: "outline", size: "large" }  
+                );
             }
-        });
+        }
     </script>
 </body>
 </html>
