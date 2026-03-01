@@ -172,28 +172,7 @@
         .pocket cg-piece.black.rook { background-image: url('https://lichess1.org/assets/piece/cburnett/bR.svg'); }
         .pocket cg-piece.black.queen { background-image: url('https://lichess1.org/assets/piece/cburnett/bQ.svg'); }
 
-        #board {
-            width: 500px !important;
-            height: 500px !important;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
-            display: block !important;
-            background-size: cover !important;
-        }
-
-        body #board.board-brown {
-            background-image: url('https://lichess1.org/assets/images/board/brown.png') !important;
-        }
-
-        body #board.board-green {
-            background-image: url('https://lichess1.org/assets/images/board/green.png') !important;
-        }
-
-        body #board.board-blue {
-            background-image: url('https://lichess1.org/assets/images/board/blue.png') !important;
-        }
-        cg-board {
-            background-size: cover !important;
-        }
+        
 
 
 
@@ -326,7 +305,27 @@
         .promotion-dialog.black .promo-rook { background-image: url('https://lichess1.org/assets/piece/cburnett/bR.svg'); }
         .promotion-dialog.black .promo-bishop { background-image: url('https://lichess1.org/assets/piece/cburnett/bB.svg'); }
         .promotion-dialog.black .promo-knight { background-image: url('https://lichess1.org/assets/piece/cburnett/bN.svg'); }
+        #board.board-brown cg-board {
+            background-image: url('https://lichess1.org/assets/images/board/brown.png') !important;
+        }
 
+        #board.board-green cg-board {
+            background-image: url('https://lichess1.org/assets/images/board/green.png') !important;
+        }
+
+        #board.board-blue cg-board {
+            background-image: url('https://lichess1.org/assets/images/board/blue.png') !important;
+        }
+
+        cg-board {
+            background-size: cover !important;
+        }
+
+        #board {
+            width: 500px !important;
+            height: 500px !important;
+            display: block !important;
+        }
     </style>
   <script type="module" crossorigin src="/crazyhouse/assets/index-BC73_f3V.js"></script>
   <link rel="stylesheet" crossorigin href="/crazyhouse/assets/index-D1wC9UDJ.css">
