@@ -15,8 +15,8 @@ window.handleCredentialResponse = function(response) {
 
     // 2. Security Check: Ensure it's a CMU email
     //Change for CMU- vs non-CMU
-    // if (userData.email.endsWith('@andrew.cmu.edu')) {
-    if (true) {
+    if (userData.email.endsWith('@andrew.cmu.edu')) {
+    // if (true) {
 
         // Store auth state for the session
         sessionStorage.setItem('cmuAuth', 'true');
